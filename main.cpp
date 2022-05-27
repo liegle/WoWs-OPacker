@@ -16,12 +16,12 @@ void pack_mods(vector<string>);
 int main()
 {
 	CoInitialize(NULL);
-	const int version = 1;
+	const int version = 2;
 	vector<string> ModsVec = start_menu(version);
 	if (!ModsVec.empty())
 	{
 		pack_mods(ModsVec);
-		cout << "Íê³É\n\n\n";
+		cout << "å®Œæˆ\n\n\n";
 	}
 	CoUninitialize();
 }
@@ -29,60 +29,60 @@ int main()
 vector<string> start_menu(int version)
 {
 	char Choice = 'y';
-vector<string> ModsVec;
+	vector<string> ModsVec;
 
-cout << "OPacker\n°æ±¾£º" << version << "\n·´À¡BUGË½ÐÅBÕ¾UID38112033\n--------------------\n¿ªÊ¼ËÑË÷[Y]ÍË³ö[ÆäËû]\n";
-cin >> Choice;
-if (Choice == 'y' || Choice == 'Y')
-{
-	path Folder("res_unpack\\banks\\OfficialMods");
+	cout << "OPacker\nç‰ˆæœ¬ï¼š" << version << "\nåé¦ˆBUGç§ä¿¡Bç«™UID38112033\n--------------------\nå¼€å§‹æœç´¢[Y]é€€å‡º[å…¶ä»–]\n";
+	cin >> Choice;
+	if (Choice == 'y' || Choice == 'Y')
+	{
+		path Folder("res_unpack\\banks\\OfficialMods");
 
-	if (!exists(Folder))
-	{
-		cout << "Ä¿±êÎÄ¼þ¼Ð²»´æÔÚ\n";
-		return ModsVec;
-	}
-	else if (filesystem::is_empty(Folder))
-	{
-		cout << "Ä¿±êÎÄ¼þ¼ÐÎª¿Õ\n";
-		return ModsVec;
-	}
-	else
-	{
-		int ModNum = 0;
-		directory_iterator ModsIt(Folder);
-		string ModName;
-
-		while (ModsIt != end(ModsIt))
+		if (!exists(Folder))
 		{
-			if (exists(ModsIt->path() / "mod.xml"))
-			{
-				if (ModNum == 0)
-				{
-					cout << "--------------------\n";
-				}
-				ModName = ModsIt->path().filename().string();
-				ModsVec.push_back(ModName);
-				cout << ModNum << ". " << ModName << endl;
-				++ModNum;
-			}
-			++ModsIt;
+			cout << "ç›®æ ‡æ–‡ä»¶å¤¹ä¸å­˜åœ¨\n";
+			return ModsVec;
 		}
-		if (ModNum == 0)
+		else if (filesystem::is_empty(Folder))
 		{
-			cout << "Î´ÕÒµ½¿ÉÓÃµÄOfficialmod\n";
+			cout << "ç›®æ ‡æ–‡ä»¶å¤¹ä¸ºç©º\n";
+			return ModsVec;
 		}
 		else
 		{
-			cout << "ÒÑÕÒµ½" << ModNum << "¸ö¿ÉÄÜ¿ÉÓÃµÄOfficialmod£¬È«²¿Éú³É[Y]ÍË³ö[ÆäËû]\n";
+			int ModNum = 0;
+		    directory_iterator ModsIt(Folder);
+			string ModName;
+
+			while (ModsIt != end(ModsIt))
+			{
+				if (exists(ModsIt->path() / "mod.xml"))
+				{
+					if (ModNum == 0)
+					{
+						cout << "--------------------\n";
+					}
+					ModName = ModsIt->path().filename().string();
+					ModsVec.push_back(ModName);
+					cout << ModNum << ". " << ModName << endl;
+					++ModNum;
+				}
+				++ModsIt;
+			}
+			if (ModNum == 0)
+			{
+				cout << "æœªæ‰¾åˆ°å¯ç”¨çš„Officialmod\n";
+			}
+			else
+			{
+				cout << "å·²æ‰¾åˆ°" << ModNum << "ä¸ªå¯èƒ½å¯ç”¨çš„Officialmodï¼Œå…¨éƒ¨ç”Ÿæˆ[Y]é€€å‡º[å…¶ä»–]\n";
+			}
+			return ModsVec;
 		}
+	}
+	else
+	{
 		return ModsVec;
 	}
-}
-else
-{
-	return ModsVec;
-}
 }
 
 void pack_mods(vector<string> ModsVec)
@@ -95,13 +95,13 @@ void pack_mods(vector<string> ModsVec)
 		MSXML2::IXMLDOMDocumentPtr ModXml;
 		if (!SUCCEEDED(ModXml.CreateInstance(__uuidof(MSXML2::DOMDocument60))))
 		{
-			cout << "´´½¨xml¶ÔÏóÊ§°Ü\n";
-			ModXml.Detach();
+			cout << "åˆ›å»ºxmlå¯¹è±¡å¤±è´¥\n";
+			ModXml.Release();
 			return;
 		}
-		cout << "ÒÑ´´½¨xml¶ÔÏó\n";
+		cout << "å·²åˆ›å»ºxmlå¯¹è±¡\n";
 		cout << "--------------------\n";
-		cout << "banksÎÄ¼þ¼Ð½«Éú³ÉÓÚC:\\Games\\World_of_Warships\\binÏÂ\nÇë×ÔÐÐÒÆ¶¯ÖÁbin\\°æ±¾±àºÅ\\res_modsÖÐ£¨·ÅÔÚreadme.txtÅÔ£©\n";
+		cout << "banksæ–‡ä»¶å¤¹å°†ç”ŸæˆäºŽC:\\Games\\World_of_Warships\\binä¸‹\nè¯·è‡ªè¡Œç§»åŠ¨è‡³bin\\ç‰ˆæœ¬ç¼–å·\\res_modsä¸­ï¼ˆæ”¾åœ¨readme.txtæ—ï¼‰\n";
 		for (vector<string>::iterator ModsIt = ModsVec.begin(); ModsIt != ModsVec.end(); ModsIt++)
 		{
 			vector<string> Comm;
@@ -109,11 +109,11 @@ void pack_mods(vector<string> ModsVec)
 			ModXml->put_preserveWhiteSpace(VARIANT_FALSE);
 			if (VARIANT_FALSE == ModXml->load((_variant_t)("res_unpack\\banks\\OfficialMods\\" + *ModsIt + "\\mod.xml").c_str()))
 			{
-				cout << "xmlÎÄ¼þÔØÈëÊ§°Ü£¬Ô­Òò£º" << string(ModXml->parseError->Getreason()) << endl;
-				ModXml.Detach();
+				cout << "xmlæ–‡ä»¶è½½å…¥å¤±è´¥ï¼ŒåŽŸå› ï¼š" << string(ModXml->parseError->Getreason()) << endl;
+				ModXml.Release();
 				return;
 			}
-			cout << *ModsIt << "£ºÒÑÔØÈëxmlÎÄ¼þ\n";
+			cout << *ModsIt << "ï¼šå·²è½½å…¥xmlæ–‡ä»¶\n";
 
 			MSXML2::IXMLDOMNodeListPtr Containers, Names, Paths;
 			MSXML2::IXMLDOMNodePtr Container, Path;
@@ -130,16 +130,16 @@ void pack_mods(vector<string> ModsVec)
 			{
 				if (exists(path("bin\\banks\\Mods") / (*ModsIt + ' ' + *CommName)))
 				{
-					cout << *ModsIt + ' ' + *CommName << "£ºÎÄ¼þ¼ÐÒÑ´æÔÚ\n";
+					cout << *ModsIt + ' ' + *CommName << "ï¼šæ–‡ä»¶å¤¹å·²å­˜åœ¨\n";
 				}
 				else if (!create_directories(path("bin\\banks\\Mods") / (*ModsIt + ' ' + *CommName)))
 				{
-					cout << *ModsIt + ' ' + *CommName << "£º´´½¨ÎÄ¼þ¼ÐÊ§°Ü\n";
+					cout << *ModsIt + ' ' + *CommName << "ï¼šåˆ›å»ºæ–‡ä»¶å¤¹å¤±è´¥\n";
 					continue;
 				}
 				else
 				{
-					cout << *ModsIt + ' ' + *CommName << "£º´´½¨ÎÄ¼þ¼Ð³É¹¦\n";
+					cout << *ModsIt + ' ' + *CommName << "ï¼šåˆ›å»ºæ–‡ä»¶å¤¹æˆåŠŸ\n";
 				}
 
 				ModXml->selectSingleNode("/AudioModification.xml/AudioModification/Name")->GetfirstChild()->Puttext((_bstr_t)(*ModsIt + ' ' + *CommName).c_str());
@@ -148,7 +148,6 @@ void pack_mods(vector<string> ModsVec)
 				{
 					Container = Containers->nextNode();
 					Paths = Container->GetchildNodes();
-					Paths->reset();
 					for (int j = 0; j < Paths->Getlength(); j++)
 					{
 						Path = Paths->nextNode();
@@ -168,19 +167,18 @@ void pack_mods(vector<string> ModsVec)
 				}
 				if (!SUCCEEDED(ModXml->save((_variant_t)(("bin\\banks\\Mods\\" + *ModsIt + ' ' + *CommName + "\\mod.xml").c_str()))))
 				{
-					cout << "xmlÎÄ¼þÊä³öÊ§°Ü£¬Ô­Òò£º" << string(ModXml->parseError->Getreason()) << endl;
-					Containers.Detach();
-					Names.Detach();
-					Paths.Detach();
-					Container.Detach();
-					Path.Detach();
-					ModXml.Detach();
+					cout << "xmlæ–‡ä»¶è¾“å‡ºå¤±è´¥ï¼ŒåŽŸå› ï¼š" << string(ModXml->parseError->Getreason()) << endl;
+					Containers.Release();
+					Names.Release();
+					Paths.Release();
+					Container.Release();
+					Path.Release();
+					ModXml.Release();
 					return;
 				}
-				cout << *ModsIt + ' ' + *CommName << "£ºÒÑÊä³öxmlÎÄ¼þ\n";
-				//¸´ÓÃÒ»ÏÂPathsºÍPath£¬²»È»ÓÖÒªÖØÐÂÕûÁ½¸öÖ¸Õë
+				cout << *ModsIt + ' ' + *CommName << "ï¼šå·²è¾“å‡ºxmlæ–‡ä»¶\n";
+				//å¤ç”¨ä¸€ä¸‹Pathså’ŒPathï¼Œä¸ç„¶åˆè¦é‡æ–°æ•´ä¸¤ä¸ªæŒ‡é’ˆ
 				Paths = ModXml->selectNodes("/AudioModification.xml/AudioModification/ExternalEvent/Container/Path/FilesList/File/Name");
-				Paths->reset();
 				for (int i = 0; i < Paths->Getlength(); i++)
 				{
 					Path = Paths->nextNode()->GetfirstChild();
@@ -188,28 +186,27 @@ void pack_mods(vector<string> ModsVec)
 						"bin\\banks\\Mods\\" + *ModsIt + ' ' + *CommName + '\\' + string(Path->Gettext()),
 						copy_options::overwrite_existing);
 				}
-				cout << *ModsIt + ' ' + *CommName << "£ºÒÑ¸´ÖÆwemÎÄ¼þ\n";
+				cout << *ModsIt + ' ' + *CommName << "ï¼šå·²å¤åˆ¶wemæ–‡ä»¶\n";
 				if (VARIANT_FALSE == ModXml->load((_variant_t)("res_unpack\\banks\\OfficialMods\\" + *ModsIt + "\\mod.xml").c_str()))
 				{
-					cout << "xmlÎÄ¼þÔØÈëÊ§°Ü£¬Ô­Òò£º" << string(ModXml->parseError->Getreason()) << endl;
-					Containers.Detach();
-					Names.Detach();
-					Paths.Detach();
-					Container.Detach();
-					Path.Detach();
-					ModXml.Detach();
+					cout << "xmlæ–‡ä»¶è½½å…¥å¤±è´¥ï¼ŒåŽŸå› ï¼š" << string(ModXml->parseError->Getreason()) << endl;
+					Containers.Release();
+					Names.Release();
+					Paths.Release();
+					Container.Release();
+					Path.Release();
+					ModXml.Release();
 					return;
 				}
-				cout << *ModsIt << "£ºÒÑÔØÈëxmlÎÄ¼þ\n";
+				cout << *ModsIt << "ï¼šå·²è½½å…¥xmlæ–‡ä»¶\n";
 				Containers = ModXml->selectNodes("/AudioModification.xml/AudioModification/ExternalEvent/Container");
 			}
-
-			Containers.Detach();
-			Names.Detach();
-			Paths.Detach();
-			Container.Detach();
-			Path.Detach();
+			Containers.Release();
+			Names.Release();
+			Paths.Release();
+			Container.Release();
+			Path.Release();
 		}
-		ModXml.Detach();
+		ModXml.Release();
 	}
 }
