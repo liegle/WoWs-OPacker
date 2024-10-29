@@ -63,7 +63,9 @@ namespace wowsmod
 					++pathCount;
 				}
 
-				::std::string crewName = (::std::string)currentPath->selectSingleNode("StateList/State[Name='CrewName']/Value")->Gettext();
+				auto node = currentPath->selectSingleNode("StateList/State[Name='CrewName']/Value");
+				if (node == nullptr) return;
+				::std::string crewName = (::std::string)node->Gettext();
 				::std::vector<crew>::iterator found = find_if(crewVector.begin(), crewVector.end(), [&](crew& c) { return c.is(crewName); });
 				crew& currentCrew =
 					(
