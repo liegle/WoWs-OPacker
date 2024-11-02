@@ -1,26 +1,25 @@
-#include "header.hpp"
+#include <iostream>
+#include <conio.h>
+
+#include "utils.hpp"
+#include "mod.hpp"
 
 int main()
 {
-	::std::cout
-		<< "OPacker" << ::std::endl
-		<< "版本：" << wowsmod::version << ::std::endl
-		<< "反馈BUG私信B站UID38112033" << ::std::endl;
+	std::cout
+		<< "OPacker" << std::endl
+		<< "版本：" << wowsmod::VERSION << std::endl
+		<< "反馈BUG私信B站UID38112033" << std::endl;
 
-	if (FAILED(CoInitialize(nullptr)))
+	if (::wowsmod::printMenu({ "生成mod.xml模板", "生成所有mod" }))
 	{
-		::std::cout << "COM初始化失败\n";
-	}
-	else if (::wowsmod::printMenu({ "生成mod.xml模板", "生成所有mod" }))
-	{
-		::wowsmod::mod::generateMods();
+		::wowsmod::OfficialMod::generateMods();
 	}
 	else
 	{
-		::wowsmod::mod::generateTemplate();
+		::wowsmod::OfficialMod::generateTemplate();
 	}
 
-	::std::cout << "按任意键退出\n";
+	std::cout << "按任意键退出\n";
 	while (!_kbhit());
-	CoUninitialize();
 }

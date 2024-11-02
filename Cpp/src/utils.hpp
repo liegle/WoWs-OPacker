@@ -1,9 +1,20 @@
 #pragma once
 
-#include "header.hpp"
+#include <vector>
+#include "../lib/tinyxml2.h"
 
 namespace wowsmod
 {
-	node insertNode(const xml, const node, const ::std::string&, const int);
-	const int printMenu(::std::vector<::std::string>);
+	static constexpr int VERSION = 6;
+	static constexpr char DEFAULT_DIRECTORY[] = "res_unpack\\banks\\OfficialMods\\";
+
+	class Element : public tinyxml2::XMLElement
+	{
+	public:
+		Element* PathElement(std::vector<const char*>);
+		std::vector<Element*> PathElementList(std::vector<const char*>);
+		Element* InsertNewChildElementWithIndent(const std::string&, const int);
+	};
+
+	const int printMenu(std::vector<std::string>);
 }

@@ -1,24 +1,24 @@
 #pragma once
 
-#include "header.hpp"
+#include "state.hpp"
 
 namespace wowsmod
 {
-	class external_event
+	class ExternalEvent
 	{
 	private:
-		::std::string name;
-		::std::string externalId;
+		std::string name;
+		std::string externalId;
 		int frontIndex;
 
-		::std::vector<::std::vector<state>> pathVector;
+		std::vector<std::vector<State>> pathVector;
 
 	public:
-		external_event(const ::std::string&, const ::std::string&, int);
+		ExternalEvent(const std::string&, const std::string&, int);
 
 		const int front() const;
-		const bool push(::std::vector<state>&&, int&);
-		void appendExternalEventNode(const xml, const node, const crew&) const;
+		const bool push(std::vector<State>&&, int&);
+		void appendExternalEventNode(Element*, const Crew&) const;
 		void print(bool) const;
 	};
 }
