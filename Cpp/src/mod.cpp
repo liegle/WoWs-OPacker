@@ -44,17 +44,24 @@ namespace wowsmod
 			auto pathNodeList = currentNode->PathElementList({"Container", "Path"});
 			for (auto currentPath: pathNodeList)
 			{
-				auto stateNodeList = currentPath->PathElementList({ "StateList", "State" });
+				auto stateNodeList = currentPath->PathElementList({"StateList", "State"});
 				std::vector<State> stateList;
+				Element* crewNameValueElement = nullptr;
 				for (auto stateNode: stateNodeList)
 				{
-					std::string name = std::string(stateNode->FirstChildElement()->GetText());
+					auto name = std::string(stateNode->FirstChildElement()->GetText());
 					if (name != "CrewName")
 					{
-						std::string value = std::string(stateNode->FirstChildElement()->GetText());
+						std::string value = std::string(stateNode->LastChildElement()->GetText());
 						stateList.push_back(State(name, value));
 					}
+					else
+					{
+						crewNameValueElement = reinterpret_cast<Element*>(stateNode->FirstChildElement("Value"));
+					}
 				}
+
+				if (crewNameValueElement == nullptr) continue;
 
 				int index;
 				if (currentEvent.push(std::move(stateList), index))
@@ -62,19 +69,7 @@ namespace wowsmod
 					++pathCount;
 				}
 
-				auto states = currentPath->PathElementList({"StateList", "State"});
-				Element* value = nullptr;
-				for (auto state : states)
-				{
-					auto name = state->FirstChildElement("Name")->GetText();
-					if (std::string(name) == "CrewName")
-					{
-						value = reinterpret_cast<Element*>(state->FirstChildElement("Value"));
-						break;
-					}
-				}
-				if (value == nullptr) return;
-				std::string crewName = std::string(value->GetText());
+				std::string crewName = std::string(crewNameValueElement->GetText());
 				std::vector<Crew>::iterator found = find_if(crewVector.begin(), crewVector.end(), [&](Crew& c) { return c.is(crewName); });
 				Crew* currentCrew = nullptr;
 				if (found == crewVector.end())
