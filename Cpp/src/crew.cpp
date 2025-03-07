@@ -89,12 +89,14 @@ namespace wowsmod
 		{
 			for (const std::string& file : fileList)
 			{
-				succeeded += std::filesystem::copy_file
-				(
-					"res_unpack\\banks\\OfficialMods\\" + mod + '\\' + file,
-					"bin\\banks\\Mods\\" + getName() + '\\' + file,
-					std::filesystem::copy_options::update_existing
-				);
+				auto from = "res_unpack\\banks\\OfficialMods\\" + mod + '\\' + file;
+				auto to = "bin\\banks\\Mods\\" + getName() + '\\' + file;
+				if (!std::filesystem::is_regular_file(from))
+				{
+					std::cout << getName() << ": Î´ÕÒµ½" << from << std::endl;
+					continue;
+				}
+				succeeded += std::filesystem::copy_file(from, to, std::filesystem::copy_options::update_existing);
 			}
 		}
 
